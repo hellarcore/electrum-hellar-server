@@ -1,9 +1,9 @@
-IRC is used by Electrum Dash server to find 'peers' - other Electrum Dash servers. The
+IRC is used by Electrum Hellar server to find 'peers' - other Electrum Hellar servers. The
 current list can be seen by running:
 
   electrum-hellar-server peers
 
-The following config file options are used by the IRC part of Electrum Dash server:
+The following config file options are used by the IRC part of Electrum Hellar server:
 
     [server]
     irc = yes
@@ -13,15 +13,15 @@ The following config file options are used by the IRC part of Electrum Dash serv
     # report_stratum_tcp_port = 50001
 
 `irc` is used to determine whether the IRC thread will be started or
-the Electrum Dash server will run in private mode (default). In private
+the Electrum Hellar server will run in private mode (default). In private
 mode, `electrum-hellar-server peers` will always return an empty list.
 
-`host` is a fully-qualified domain name (FQDN) of your Electrum Dash
+`host` is a fully-qualified domain name (FQDN) of your Electrum Hellar
 server. It is used both when binding the listener for incoming client
 connections and as part of the realname field in IRC (see below).
 
 `report_host` is a an optional fully-qualified domain name (FQDN) of
-your Electrum Dash server instead of `host`. It is used as part of the name
+your Electrum Hellar server instead of `host`. It is used as part of the name
 field in IRC for incoming client connections.  This is useful in a NAT
 setup where you bind to a private IP locally but have an external IP
 set up at your router and external DNS.

@@ -1,8 +1,7 @@
-Electrum-hellar-server for the Electrum Dash client
+Electrum-hellar-server for the Electrum Hellar client
 =========================================
 
-  * Author: Thomas Voegtlin (ThomasV on the bitcointalk forum)
-  * Dash codebase port Authors: ELM4Ever, Propulsion
+  * Hellar codebase port:
   * Language: Python
 
 Features

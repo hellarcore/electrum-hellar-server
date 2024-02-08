@@ -21,10 +21,9 @@ setup(
         'electrumserver.ircthread',
         'electrumserver.stratum_tcp'
     ],
-    description="Dash Electrum Server",
-    author="Thomas Voegtlin ,ELM4ever, Propulsion, TheLazieR",
-    author_email="thomasv@electrum.org, thelazier@gmail.com",
+    description="Hellar Electrum Server",
+    author_email="dev@hellar.io",
     license="MIT Licence",
     url="https://github.com/spesmilo/electrum-server/ , https://github.com/thelazier/electrum-hellar-server/",
-    long_description="""Server for the Electrum Lightweight Dash Wallet"""
+    long_description="""Server for the Electrum Lightweight Hellar Wallet"""
 )

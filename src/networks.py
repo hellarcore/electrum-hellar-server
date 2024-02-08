@@ -1,6 +1,6 @@
 # Main network and testnet3 definitions
 
-# Dash src/chainparams.cpp
+# Hellar src/chainparams.cpp
 params = {
     'hellar_main': {
         'pubkey_address': 76, #L120

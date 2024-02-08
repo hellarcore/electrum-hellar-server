@@ -18,7 +18,7 @@ system, just run 'run_electrum_hellar_server'
 
 A full hellar node is required in order to know for each address 
 if it has been used. Pruning occurs only at the level of the 
-Electrum Dash database.
+Electrum Hellar database.
 
 
 2. Run the 'configure' script

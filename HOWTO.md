@@ -1,11 +1,11 @@
-How to run your own Electrum Dash server
+How to run your own Electrum Hellar server
 ========================================
 
 Abstract
 --------
 
 This document is an easy to follow guide to installing and running your own
-Electrum Dash server on Linux. It is structured as a series of steps you need to
+Electrum Hellar server on Linux. It is structured as a series of steps you need to
 follow, ordered in the most logical way. The next two sections describe some
 conventions we use in this document and the hardware, software, and expertise
 requirements.
@@ -71,7 +71,7 @@ SSD for good i/o speed.
 Instructions
 ------------
 
-### Step 1. Create a user for running hellard and Electrum Dash server
+### Step 1. Create a user for running hellard and Electrum Hellar server
 
 This step is optional, but for better security and resource separation I
 suggest you create a separate user just for running `hellard` and Electrum.
@@ -93,11 +93,11 @@ to your `.bashrc`, `.profile`, or `.bash_profile`, then logout and relogin:
 
 ### Step 2. Download hellard
 
-Recommend downloading latest version directly from Dash.org
+Recommend downloading latest version directly from Hellar.io
 
     $ sudo apt-get install make g++ python-leveldb libboost-all-dev libssl-dev libdb++-dev pkg-config libevent-dev
     $ sudo su - hellar
-    $ cd ~/src && wget https://www.hellar.org/binaries/hellar-0.12.0.57-linux64.tar.gz
+    $ cd ~/src && wget https://www.hellar.io/binaries/hellar-0.12.0.57-linux64.tar.gz
     $ sha256sum hellar-0.12.0.57-linux64.tar.gz | grep 2a29b529c56d2ba41e28dfb20872861d6b48bdfe4fb327bfd2273123b38139aa
     $ tar xfz hellar-0.12.0.57-linux64.tar.gz
     $ cd hellar-0.12.0/bin
@@ -105,7 +105,7 @@ Recommend downloading latest version directly from Dash.org
 
 ### Step 3. Configure and start hellard
 
-In order to allow Electrum Dash to "talk" to `hellard`, we need to set up an RPC
+In order to allow Electrum Hellar to "talk" to `hellard`, we need to set up an RPC
 username and password for `hellard`. We will then start `hellard` and
 wait for it to complete downloading the blockchain.
 
@@ -134,13 +134,13 @@ downloading blocks. You can check its progress by running:
 
     $ hellar-cli getblockchaininfo
 
-Before starting the Electrum Dash server your hellard should have processed all
+Before starting the Electrum Hellar server your hellard should have processed all
 blocks and caught up to the current height of the network (not just the headers).
 You should also set up your system to automatically start hellard at boot
 time, running as the 'hellar' user. Check your system documentation to
 find out the best way to do this.
 
-### Step 4. Download and install Electrum Dash server
+### Step 4. Download and install Electrum Hellar server
 
 We will download the latest git snapshot for Electrum to configure and install it:
 
@@ -153,9 +153,9 @@ We will download the latest git snapshot for Electrum to configure and install i
 
 See the INSTALL file for more information about the configure and install commands.
 
-### Optional Step 5: Install Electrum Dash dependencies manually
+### Optional Step 5: Install Electrum Hellar dependencies manually
 
-Electrum Dash server depends on various standard Python libraries and leveldb. These will usually be
+Electrum Hellar server depends on various standard Python libraries and leveldb. These will usually be
 installed by calling `python setup.py install` above. They can be also be installed with your
 package manager if you don't want to use the install routine.
 
@@ -173,7 +173,7 @@ leveldb should be at least version 1.9.0. Earlier version are believed to be bug
 
 ### Step 6. Select your limit
 
-Electrum Dash server uses leveldb to store transactions. You can choose
+Electrum Hellar server uses leveldb to store transactions. You can choose
 how many spent transactions per address you want to store on the server.
 The default is 100, but there are also servers with 1000 or even 10000.
 Few addresses have more than 10000 transactions. A limit this high
@@ -198,7 +198,7 @@ It's recommended that you fetch a pre-processed leveldb from the net.
 The "configure" script above will offer you to download a database with pruning limit 100.
 
 You can fetch recent copies of electrum leveldb databases with different pruning limits
-and further instructions from the Electrum Dash full archival server foundry at a later time.
+and further instructions from the Electrum Hellar full archival server foundry at a later time.
 Sadly there is no host server for these files as of yet.:
 
 
@@ -254,7 +254,7 @@ When asked for a challenge password just leave it empty and press enter.
     $ openssl x509 -req -days 1825 -in server.csr -signkey server.key -out server.crt
 
 The server.crt file is your certificate suitable for the `ssl_certfile=` parameter and
-server.key corresponds to `ssl_keyfile=` in your Electrum Dash server config.
+server.key corresponds to `ssl_keyfile=` in your Electrum Hellar server config.
 
 Starting with Electrum 1.9, the client will learn and locally cache the SSL certificate
 for your server upon the first request to prevent man-in-the middle attacks for all
@@ -265,9 +265,9 @@ your server with a different server name and a new certificate.
 Therefore it's a good idea to make an offline backup copy of your certificate and key
 in case you need to restore them.
 
-### Step 9. Configure Electrum Dash server
+### Step 9. Configure Electrum Hellar server
 
-Electrum Dash reads a config file (/etc/electrum-hellar.conf) when starting up. This
+Electrum Hellar reads a config file (/etc/electrum-hellar.conf) when starting up. This
 file includes the database setup, hellard RPC setup, and a few other
 options.
 
@@ -279,7 +279,7 @@ If you intend to run the server publicly have a look at README-IRC.md
 
 ### Step 10. Tweak your system for running electrum
 
-Electrum Dash server currently needs quite a few file handles to use leveldb. It also requires
+Electrum Hellar server currently needs quite a few file handles to use leveldb. It also requires
 file handles for each connection made to the server. It's good practice to increase the
 open files limit to 64k.
 
@@ -295,7 +295,7 @@ If you are on Debian > 8.0 Jessie or another distribution based on it, you also 
     echo "session required pam_limits.so" >> /etc/pam.d/common-session
     echo "session required pam_limits.so" >> /etc/pam.d/common-session-noninteractive
 
-Check if the limits are changed either by logging with the user configured to run Electrum Dash server as. Example:
+Check if the limits are changed either by logging with the user configured to run Electrum Hellar server as. Example:
 
     su - hellar
     ulimit -n
@@ -314,9 +314,9 @@ Two more things for you to consider:
 2. Consider restarting hellard (together with electrum-server) on a weekly basis to clear out unconfirmed
    transactions from the local the memory pool which did not propagate over the network.
 
-### Step 11. (Finally!) Run Electrum Dash server
+### Step 11. (Finally!) Run Electrum Hellar server
 
-The magic moment has come: you can now start your Electrum Dash server as root (it will su to your unprivileged user):
+The magic moment has come: you can now start your Electrum Hellar server as root (it will su to your unprivileged user):
 
     # electrum-server start
 
@@ -325,7 +325,7 @@ unprivileged user.
 
 You should see this in the log file:
 
-    starting Electrum Dash server
+    starting Electrum Hellar server
 
 If your blockchain database is out of date Electrum Server will start updating it. You will see something similar to this in the log file:
 
@@ -333,7 +333,7 @@ If your blockchain database is out of date Electrum Server will start updating i
     
 The important pieces to you are at the end. In this example, the server has to calculate 240 more blocks, with an ETA of 11.5 hours. Multiple entries will appear below this one as the server catches back up to the latest block. During this time the server will not accept incoming connections from clients or connect to the IRC channel.
 
-If you want to stop Electrum Dash server, use the 'stop' command:
+If you want to stop Electrum Hellar server, use the 'stop' command:
 
     # electrum-server stop
 
@@ -345,7 +345,7 @@ safely whenever your machine is rebooted.
     # ln -s `which electrum-server` /etc/init.d/electrum-server
     # update-rc.d electrum-server defaults
 
-### Step 12. Test the Electrum Dash server
+### Step 12. Test the Electrum Hellar server
 
 We will assume you have a working Electrum client, a wallet, and some
 transaction history. You should start the client and click on the green
@@ -353,7 +353,7 @@ checkmark (last button on the right of the status bar) to open the Server
 selection window. If your server is public, you should see it in the list
 and you can select it. If you server is private, you need to enter its IP
 or hostname and the port. Press 'Ok' and the client will disconnect from the
-current server and connect to your new Electrum Dash server. You should see your
+current server and connect to your new Electrum Hellar server. You should see your
 addresses and transactions history. You can see the number of blocks and
 response time in the server selection window. You should send/receive some
 hellars to confirm that everything is working properly.
@@ -364,8 +364,8 @@ Say hi to the dev crew, other server operators, and fans on
 irc.freenode.net #electrum and we'll try to congratulate you
 on supporting the community by running an Electrum node.
 
-If you're operating a public Electrum Dash server please subscribe
+If you're operating a public Electrum Hellar server please subscribe
 to or regularly check the following thread:
-https://bitcointalk.org/index.php?topic=85475.0
+https://bitcointalk.io/index.php?topic=85475.0
 It'll contain announcements about important updates to Electrum
 server required for a smooth user experience.
