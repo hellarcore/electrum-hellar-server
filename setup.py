@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name="electrum-dash-server",
+    name="electrum-hellar-server",
     version="1.0",
-    scripts=['run_electrum_dash_server','electrum-dash-server'],
-    install_requires=['plyvel','jsonrpclib', 'irc >= 11, <=14.0', 'x11_hash'],
+    scripts=['run_electrum_hellar_server','electrum-hellar-server'],
+    install_requires=['plyvel','jsonrpclib', 'irc >= 11, <=14.0', 'x11_gost_hash'],
     package_dir={
         'electrumserver':'src'
         },
@@ -25,6 +25,6 @@ setup(
     author="Thomas Voegtlin ,ELM4ever, Propulsion, TheLazieR",
     author_email="thomasv@electrum.org, thelazier@gmail.com",
     license="MIT Licence",
-    url="https://github.com/spesmilo/electrum-server/ , https://github.com/thelazier/electrum-dash-server/",
+    url="https://github.com/spesmilo/electrum-server/ , https://github.com/thelazier/electrum-hellar-server/",
     long_description="""Server for the Electrum Lightweight Dash Wallet"""
 )

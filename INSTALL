@@ -5,18 +5,18 @@ detailed information on how to configure your server.
 TLDR:
 $ sudo ./configure
 $ sudo python ./setup.py install
-$ electrum-dash-server start
-$ electrum-dash-server stop
+$ electrum-hellar-server start
+$ electrum-hellar-server stop
 
 
 Note: If you want to run the server without installing it on your
-system, just run 'run_electrum_dash_server'
+system, just run 'run_electrum_hellar_server'
 
 
-1. Install and run dashd.
+1. Install and run hellard.
 ----------------------------
 
-A full dash node is required in order to know for each address 
+A full hellar node is required in order to know for each address 
 if it has been used. Pruning occurs only at the level of the 
 Electrum Dash database.
 
@@ -28,7 +28,7 @@ You need to run the script as root:
 $ sudo ./configure
 
 It will:
- * create the configuration file in /etc/electrum-dash.conf
+ * create the configuration file in /etc/electrum-hellar.conf
  * create a user that will run the daemon
  * optionally, download a fresh database from the Electrum Foundry.
 
@@ -53,31 +53,31 @@ Note: You will need to redo this everytime you pull code from git.
 4. Using the server
 -------------------
 
-Use 'electrum-dash-server' to start and stop the server:
+Use 'electrum-hellar-server' to start and stop the server:
 
-$ electrum-dash-server <start|stop|status|getinfo>
+$ electrum-hellar-server <start|stop|status|getinfo>
 
 The server will write a log file in its database path.
 
 
-5. Add electrum-dash-server to your system's services
+5. Add electrum-hellar-server to your system's services
 ------------------------------------------------
 
-If your system supports it, you may add electrum-dash-server to the
+If your system supports it, you may add electrum-hellar-server to the
 /etc/init.d directory. This will ensure that the server is started and
 stopped automatically, and that the database is closed safely whenever
 your machine is rebooted.
 
-# ln -s `which electrum-dash-server` /etc/init.d/electrum-dash-server
-# update-rc.d electrum-dash-server defaults
+# ln -s `which electrum-hellar-server` /etc/init.d/electrum-hellar-server
+# update-rc.d electrum-hellar-server defaults
 
 
 
 6. Troubleshooting:
 -------------------
 
- * if your server or dashd is killed because is uses too much
-   memory, configure dashd to limit the number of connections
+ * if your server or hellard is killed because is uses too much
+   memory, configure hellard to limit the number of connections
 
  * if you see "Too many open files" errors, you may need to increase
    your user's File Descriptors limit. For this, see

@@ -12,7 +12,7 @@ requirements.
 
 The most up-to date version of this document is available at:
 
-    https://github.com/dashpay/electrum-dash-server/blob/master/HOWTO.md
+    https://github.com/hellarcore/electrum-hellar-server/blob/master/HOWTO.md
 
 Conventions
 -----------
@@ -20,8 +20,8 @@ Conventions
 In this document, lines starting with a hash sign (#) or a dollar sign ($)
 contain commands. Commands starting with a hash should be run as root,
 commands starting with a dollar should be run as a normal user (in this
-document, we assume that user is called 'dash'). We also assume the
-dash user has sudo rights, so we use `$ sudo command` when we need to.
+document, we assume that user is called 'hellar'). We also assume the
+hellar user has sudo rights, so we use `$ sudo command` when we need to.
 
 Strings that are surrounded by "lower than" and "greater than" ( < and > )
 should be replaced by the user with something appropriate. For example,
@@ -54,16 +54,16 @@ Python libraries. Python 2.7 is the minimum supported version.
 
 **Hardware.** The lightest setup is a pruning server with diskspace
 requirements of about 30 GB for the Electrum database (February 2016). However note that
-you also need to run dashd and keep a copy of the full blockchain,
+you also need to run hellard and keep a copy of the full blockchain,
 which is roughly 55 GB (February 2016). Ideally you have a machine with 16 GB of RAM
-and an equal amount of swap. If you have ~2 GB of RAM make sure you limit dashd 
+and an equal amount of swap. If you have ~2 GB of RAM make sure you limit hellard 
 to 8 concurrent connections by disabling incoming connections. electrum-server may
 bail-out on you from time to time with less than 4 GB of RAM, so you might have to 
 monitor the process and restart it. You can tweak cache sizes in the config to an extend
 but most RAM will be used to process blocks and catch-up on initial start.
 
 CPU speed is less important than fast I/O speed. electrum-server makes uses of one core 
-only leaving spare cycles for dashd. Fast single core CPU power helps for the initial 
+only leaving spare cycles for hellard. Fast single core CPU power helps for the initial 
 block chain import. Any multi-core x86 CPU with CPU Mark / PassMark > 1500 will work
 (see https://www.cpubenchmark.net/). An ideal setup in February 2016 has 16 GB+ RAM and
 SSD for good i/o speed.
@@ -71,48 +71,48 @@ SSD for good i/o speed.
 Instructions
 ------------
 
-### Step 1. Create a user for running dashd and Electrum Dash server
+### Step 1. Create a user for running hellard and Electrum Dash server
 
 This step is optional, but for better security and resource separation I
-suggest you create a separate user just for running `dashd` and Electrum.
+suggest you create a separate user just for running `hellard` and Electrum.
 We will also use the `~/bin` directory to keep locally installed files
 (others might want to use `/usr/local/bin` instead). We will download source
 code files to the `~/src` directory.
 
-    $ sudo adduser dash --disabled-password
+    $ sudo adduser hellar --disabled-password
     $ sudo apt-get install git
-    $ sudo su - dash
+    $ sudo su - hellar
     $ mkdir ~/bin ~/src
     $ echo $PATH
 
-If you don't see `/home/dash/bin` in the output, you should add this line
+If you don't see `/home/hellar/bin` in the output, you should add this line
 to your `.bashrc`, `.profile`, or `.bash_profile`, then logout and relogin:
 
     PATH="$HOME/bin:$PATH"
     $ exit
 
-### Step 2. Download dashd
+### Step 2. Download hellard
 
 Recommend downloading latest version directly from Dash.org
 
     $ sudo apt-get install make g++ python-leveldb libboost-all-dev libssl-dev libdb++-dev pkg-config libevent-dev
-    $ sudo su - dash
-    $ cd ~/src && wget https://www.dash.org/binaries/dash-0.12.0.57-linux64.tar.gz
-    $ sha256sum dash-0.12.0.57-linux64.tar.gz | grep 2a29b529c56d2ba41e28dfb20872861d6b48bdfe4fb327bfd2273123b38139aa
-    $ tar xfz dash-0.12.0.57-linux64.tar.gz
-    $ cd dash-0.12.0/bin
-    $ cp -a dashd dash-cli dash-tx ~/bin
+    $ sudo su - hellar
+    $ cd ~/src && wget https://www.hellar.org/binaries/hellar-0.12.0.57-linux64.tar.gz
+    $ sha256sum hellar-0.12.0.57-linux64.tar.gz | grep 2a29b529c56d2ba41e28dfb20872861d6b48bdfe4fb327bfd2273123b38139aa
+    $ tar xfz hellar-0.12.0.57-linux64.tar.gz
+    $ cd hellar-0.12.0/bin
+    $ cp -a hellard hellar-cli hellar-tx ~/bin
 
-### Step 3. Configure and start dashd
+### Step 3. Configure and start hellard
 
-In order to allow Electrum Dash to "talk" to `dashd`, we need to set up an RPC
-username and password for `dashd`. We will then start `dashd` and
+In order to allow Electrum Dash to "talk" to `hellard`, we need to set up an RPC
+username and password for `hellard`. We will then start `hellard` and
 wait for it to complete downloading the blockchain.
 
-    $ mkdir ~/.dash
-    $ $EDITOR ~/.dash/dash.conf
+    $ mkdir ~/.hellar
+    $ $EDITOR ~/.hellar/hellar.conf
 
-Write this in `dash.conf`:
+Write this in `hellar.conf`:
 
     rpcuser=<rpc-username>
     rpcpassword=<rpc-password>
@@ -120,24 +120,24 @@ Write this in `dash.conf`:
     txindex=1
 
 
-If you have an existing installation of dashd and have not previously
+If you have an existing installation of hellard and have not previously
 set txindex=1 you need to reindex the blockchain by running
 
-    $ dashd -reindex
+    $ hellard -reindex
 
-If you already have a freshly indexed copy of the blockchain with txindex start `dashd`:
+If you already have a freshly indexed copy of the blockchain with txindex start `hellard`:
 
-    $ dashd
+    $ hellard
 
-Allow some time to pass for `dashd` to connect to the network and start
+Allow some time to pass for `hellard` to connect to the network and start
 downloading blocks. You can check its progress by running:
 
-    $ dash-cli getblockchaininfo
+    $ hellar-cli getblockchaininfo
 
-Before starting the Electrum Dash server your dashd should have processed all
+Before starting the Electrum Dash server your hellard should have processed all
 blocks and caught up to the current height of the network (not just the headers).
-You should also set up your system to automatically start dashd at boot
-time, running as the 'dash' user. Check your system documentation to
+You should also set up your system to automatically start hellard at boot
+time, running as the 'hellar' user. Check your system documentation to
 find out the best way to do this.
 
 ### Step 4. Download and install Electrum Dash server
@@ -145,8 +145,8 @@ find out the best way to do this.
 We will download the latest git snapshot for Electrum to configure and install it:
 
     $ cd ~
-    $ git clone https://github.com/dashpay/electrum-dash-server.git
-    $ cd electrum-dash-server
+    $ git clone https://github.com/hellarcore/electrum-hellar-server.git
+    $ cd electrum-hellar-server
     $ sudo apt-get install python-setuptools
     $ sudo ./configure
     $ sudo python setup.py install
@@ -267,11 +267,11 @@ in case you need to restore them.
 
 ### Step 9. Configure Electrum Dash server
 
-Electrum Dash reads a config file (/etc/electrum-dash.conf) when starting up. This
-file includes the database setup, dashd RPC setup, and a few other
+Electrum Dash reads a config file (/etc/electrum-hellar.conf) when starting up. This
+file includes the database setup, hellard RPC setup, and a few other
 options.
 
-The "configure" script listed above will create a config file at /etc/electrum-dash.conf
+The "configure" script listed above will create a config file at /etc/electrum-hellar.conf
 which you can edit to modify the settings.
 
 Go through the config options and set them to your liking.
@@ -283,12 +283,12 @@ Electrum Dash server currently needs quite a few file handles to use leveldb. It
 file handles for each connection made to the server. It's good practice to increase the
 open files limit to 64k.
 
-The "configure" script will take care of this and ask you to create a user for running electrum-dash-server.
-If you're using the user `dash` to run electrum and have added it as shown in this document, run
+The "configure" script will take care of this and ask you to create a user for running electrum-hellar-server.
+If you're using the user `hellar` to run electrum and have added it as shown in this document, run
 the following code to add the limits to your /etc/security/limits.conf:
 
-     echo "dash hard nofile 65536" >> /etc/security/limits.conf
-     echo "dash soft nofile 65536" >> /etc/security/limits.conf
+     echo "hellar hard nofile 65536" >> /etc/security/limits.conf
+     echo "hellar soft nofile 65536" >> /etc/security/limits.conf
 
 If you are on Debian > 8.0 Jessie or another distribution based on it, you also need to add these lines in /etc/pam.d/common-session and /etc/pam.d/common-session-noninteractive otherwise the limits in /etc/security/limits.conf will not work:
 
@@ -297,21 +297,21 @@ If you are on Debian > 8.0 Jessie or another distribution based on it, you also 
 
 Check if the limits are changed either by logging with the user configured to run Electrum Dash server as. Example:
 
-    su - dash
+    su - hellar
     ulimit -n
 
 Or if you use sudo and the user is added to sudoers group:
 
-    sudo -u dash -i ulimit -n
+    sudo -u hellar -i ulimit -n
 
 
 Two more things for you to consider:
 
 1. To increase privacy of transactions going through your server
-   you may want to close dashd for incoming connections and connect outbound only. Most servers do run
+   you may want to close hellard for incoming connections and connect outbound only. Most servers do run
    full nodes with open incoming connections though.
 
-2. Consider restarting dashd (together with electrum-server) on a weekly basis to clear out unconfirmed
+2. Consider restarting hellard (together with electrum-server) on a weekly basis to clear out unconfirmed
    transactions from the local the memory pool which did not propagate over the network.
 
 ### Step 11. (Finally!) Run Electrum Dash server
@@ -356,7 +356,7 @@ or hostname and the port. Press 'Ok' and the client will disconnect from the
 current server and connect to your new Electrum Dash server. You should see your
 addresses and transactions history. You can see the number of blocks and
 response time in the server selection window. You should send/receive some
-dashs to confirm that everything is working properly.
+hellars to confirm that everything is working properly.
 
 ### Step 13. Join us on IRC, subscribe to the server thread
 
